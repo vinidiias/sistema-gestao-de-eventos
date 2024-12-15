@@ -13,7 +13,7 @@ const AuthForm = ({ onSubmit }) => {
     const isRegister = url.pathname === "/register"
 
     return (
-      <form className={styles.form}>
+      <form>
         {isRegister && (
           <Input
             text="Nome"

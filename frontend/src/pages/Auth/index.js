@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import styles from './index.module.css';
-import { ImCalendar } from "react-icons/im";
 import AuthForm from '../../components/Auth/AuthForm';
 import { useLocation } from 'react-router-dom';
+import LogoNextEvent from '../../components/Layout/LogoNextEvent';
 
 const Auth = () => {
     const url = useLocation()
@@ -11,10 +10,7 @@ const Auth = () => {
     return (
         <div className={styles.login_container}>
             <div className={styles.left_container}>
-                <div className={styles.logo}>
-                    <h1>NextEvent</h1>
-                    <ImCalendar />
-                </div>
+                <LogoNextEvent />
             </div>
             <div className={styles.right_container}>
                 <div className={styles.form_container}>

@@ -1,0 +1,18 @@
+.footer {
+    padding: .5em;
+    text-align: center;
+    background-color: #5257F2;
+}
+
+.footer p {
+    color: white;
+}
+
+.footer ul {
+    display: flex;
+    justify-content: center;
+    color: white;
+    column-gap: 1em;
+    font-size: 1.1em;
+    list-style: none;
+}

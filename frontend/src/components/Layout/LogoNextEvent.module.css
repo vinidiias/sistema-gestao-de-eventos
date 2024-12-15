@@ -1,0 +1,17 @@
+.logo {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
+    color: #1E81CE;
+    letter-spacing: 2px;
+}
+
+.logo h1 {
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.logo svg {
+    font-size: 1.2em;
+}
