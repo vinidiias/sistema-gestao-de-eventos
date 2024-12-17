@@ -1,24 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import Auth from './pages/Auth'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import CadastroEvento from './pages/Cadastro/Evento';
+import Container from './components/Layout/Container';
+import LayoutWithoutLayout from './components/Layout/LayoutWithoutNav';
+import LayoutWithLayout from './components/Layout/LayoutWithNav';
+import CadastroAcoes from './pages/Cadastro/SubEventos';
+import Evento from './pages/Eventos';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+          
+          <Route element={<LayoutWithoutLayout />}>
+            <Route path="/login" element={<Auth />} />
+            <Route path="/register" element={<Auth />} />
+          </Route>
+
+          <Route element={<LayoutWithLayout />} >
+          <Route path="/eventos" element={<Evento />} />
+          <Route path="/cadastro/evento" element={<CadastroEvento />} />
+          <Route path="/cadastro/curso" element={<CadastroAcoes categorie="Curso" />} />
+          <Route path="/cadastro/seminario" element={<CadastroAcoes categorie="Seminário" />} />
+          <Route path="/cadastro/palestra" element={<CadastroAcoes categorie="Palestra" />} />
+          </Route>
+
+        </Routes>
+    </BrowserRouter>
   );
 }
 

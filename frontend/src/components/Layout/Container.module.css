@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.container {
+    flex-direction: column;
+}
+
+.height {
+    height: 100%;
+}
+
+.auto {
+    flex: 1;
+}

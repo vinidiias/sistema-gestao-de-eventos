@@ -1,0 +1,12 @@
+.navbar {
+    padding: .6em;
+    background-color: #5257F2;
+}
+
+.navbar svg {
+    color: white;
+}
+
+.navbar h1 {
+    color: white;
+}
