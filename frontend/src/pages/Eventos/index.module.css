@@ -1,0 +1,101 @@
+.evento_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    height: 100%;
+    background-color: #EBEFF7;
+}
+
+.header {
+    padding: 1em;
+    font-size: .6em;
+}
+
+.header h1 {
+    font-weight: 500;
+}
+
+.header svg {
+    margin-left: .5em;
+}
+
+.cards_container {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+    padding: 2em;
+    width: 100%;
+}
+
+.card {
+    border-radius: 7px;
+    padding: 1em 1.5em;
+    width: fit-content;
+    background-color: white;
+}
+
+.info {
+    display: flex;
+    gap: 2.5em;
+    margin-bottom: 1em;
+}
+
+.info img {
+    width: 120px;
+    object-fit: contain;
+}
+
+.content h2 {
+    font-size: 1.35em;
+    font-weight: 550;
+    margin-bottom: .7em;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    margin-bottom: .4em;
+}
+
+.item svg {
+    margin-right: .3em;
+}
+
+.item p {
+    font-size: .9em;
+    font-weight: 400;
+}
+
+.btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.widget {
+    text-align: center;
+    padding: .5em .8em;
+    border: 1.7px solid rgb(219, 219, 219);
+    border-radius: 10px;
+}
+
+.widget h3 {
+    font-size: .8em;
+    font-weight: 500;
+}
+
+.widget p {
+    font-weight: 600;
+    font-size: .85em;
+}
+
+.btns button {
+    font-weight: 600;
+    padding: 1em 2.5em;
+    height: fit-content;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: #5257F2;
+}

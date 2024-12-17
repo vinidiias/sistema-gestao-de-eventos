@@ -10,3 +10,7 @@
 .height {
     height: 100%;
 }
+
+.auto {
+    flex: 1;
+}

@@ -1,13 +1,15 @@
 import Input from '../Form/Input';
 import Submit from '../Form/Submit';
 import styles from './AuthForm.module.css'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const AuthForm = ({ onSubmit }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const navigate = useNavigate()
     
     const url = useLocation()
     const isRegister = url.pathname === "/register"
@@ -37,7 +39,10 @@ const AuthForm = ({ onSubmit }) => {
           name="password"
           onHandler={(e) => setPassword(e.target.value)}
         />
-        <Submit text={isRegister ? "Registrar" : "Entrar"} />
+        <div className={styles.btns}>
+          <Submit text={isRegister ? "Registrar" : "Entrar"} />
+          <Submit onSubmit={() => navigate(`${!isRegister ? '/register' : '/login'}`)} text={!isRegister ? "Registrar" : "Entrar"} />
+        </div>
       </form>
     );
 }
