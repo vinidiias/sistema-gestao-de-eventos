@@ -7,6 +7,16 @@
     margin: auto;
     width: 50%;
 }
+
 .cadastro h1 {
     font-size: 1.5em;
+}
+
+.header {
+    padding: 1em 2em;
+}
+
+.header svg {
+    font-size: 1.5em;
+    cursor: pointer;
 }

@@ -4,7 +4,12 @@ import { SlArrowDown } from "react-icons/sl";
 import LogoUnioeste from '../../assets/unioesteLogo.png'
 import LogoLatinoWare from '../../assets/latinoware.png'
 import Card from '../../components/Card/Card';
+import Submit from '../../components/Form/Submit';
+import { useNavigate } from 'react-router-dom';
+
 const Evento = () => {
+
+    const navigate = useNavigate()
 
     const eventos = [
       {
@@ -18,13 +23,13 @@ const Evento = () => {
         categoria: 'Evento'
       },
       {
-        img: LogoUnioeste,
-        title: 'Semana Acadêmica',
+        img: LogoLatinoWare,
+        title: 'Latinoware',
         address: 'Itaipu Parquetec',
-        date: '24 de novembro - 27 de novembro',
-        hours: '7:30 am - 11:50 am',
-        valor: '15',
-        vagas: '10',
+        date: '27 de novembro - 29 de novembro',
+        hours: '7:30 am - 18:50 am',
+        valor: '0',
+        vagas: '200',
         categoria: 'Evento'
       },
       {
@@ -66,6 +71,7 @@ const Evento = () => {
             Eventos
             <SlArrowDown />
           </h1>
+          <Submit text="Cadastrar Evento" onSubmit={() => navigate('/cadastro/evento')} />
         </div>
         <div className={styles.cards_container}>
           {eventos.map((evento, index) => (

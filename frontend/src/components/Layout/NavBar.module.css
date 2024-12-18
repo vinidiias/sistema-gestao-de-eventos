@@ -1,4 +1,6 @@
 .navbar {
+    display: flex;
+    align-items: center;
     padding: .6em;
     background-color: #5257F2;
 }
@@ -9,4 +11,17 @@
 
 .navbar h1 {
     color: white;
+}
+
+.navbar ul {
+    padding: 1em;
+    margin-left: auto;
+    display: flex;
+    gap: 1em;
+    list-style: none;
+}
+
+.navbar ul > li > a {
+    color: white;
+    text-decoration: none;
 }

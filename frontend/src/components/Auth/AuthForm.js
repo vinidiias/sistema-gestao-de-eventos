@@ -14,8 +14,12 @@ const AuthForm = ({ onSubmit }) => {
     const url = useLocation()
     const isRegister = url.pathname === "/register"
 
+    const submit = () => {
+      onSubmit(email, password)
+    }
+
     return (
-      <form>
+      <form onSubmit={submit}>
         {isRegister && (
           <Input
             text="Nome"
