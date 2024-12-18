@@ -1,11 +1,20 @@
 import styles from './index.module.css';
 import AuthForm from '../../components/Auth/AuthForm';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import LogoNextEvent from '../../components/Layout/LogoNextEvent';
 
 const Auth = () => {
     const url = useLocation()
     const isRegister = url.pathname === '/register'
+    const navigate = useNavigate()
+
+    const handleSubmit = (email, password) => {
+        if((!email || email === '') ||
+           (!password || password === '')) return alert('Campos inválidos!')
+        
+        navigate('/eventos')
+        alert('Logado com sucesso!')
+    }
 
     return (
         <div className={styles.login_container}>
@@ -18,7 +27,9 @@ const Auth = () => {
                         <h2>Bem vindo ao NextEvent</h2>
                         <h3>{isRegister ? 'Registre' : 'Entre com'} sua conta!</h3>
                     </div>
-                    <AuthForm />
+                    <AuthForm 
+                    onSubmit={handleSubmit}
+                    />
                 </div>
             </div>
         </div>

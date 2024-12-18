@@ -1,7 +1,7 @@
 import styles from './Submit.module.css'
 
-const Submit = ({ text, onSubmit  }) => {
-    return <button className={styles.btn} onClick={onSubmit}>{text}</button>
+const Submit = ({ text, onSubmit, customClass  }) => {
+    return <button className={`${styles.btn} ${styles[customClass]}`} onClick={onSubmit}>{text}</button>
 }
 
 export default Submit

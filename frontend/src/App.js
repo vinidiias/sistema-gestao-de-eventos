@@ -7,6 +7,8 @@ import LayoutWithoutLayout from './components/Layout/LayoutWithoutNav';
 import LayoutWithLayout from './components/Layout/LayoutWithNav';
 import CadastroAcoes from './pages/Cadastro/SubEventos';
 import Evento from './pages/Eventos';
+import Contact from './pages/Contact';
+import Empresa from './pages/Empresa';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           </Route>
 
           <Route element={<LayoutWithLayout />} >
+          <Route path="/empresa" element={<Empresa />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/eventos" element={<Evento />} />
           <Route path="/cadastro/evento" element={<CadastroEvento />} />
           <Route path="/cadastro/curso" element={<CadastroAcoes categorie="Curso" />} />

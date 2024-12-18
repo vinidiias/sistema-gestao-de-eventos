@@ -1,9 +1,11 @@
 import { useState } from "react"
 import FormCadastro from "../../../components/Cadastro/FormCadastro"
 import styles from './index.module.css'
-import Container from '../../../components/Layout/Container'
+import { TiArrowLeftThick } from "react-icons/ti";
+import { useNavigate } from 'react-router-dom'
 
 const CadastroEvento = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         name: '',
         local: '',
@@ -25,11 +27,16 @@ const CadastroEvento = () => {
     ]
 
     return (
-        <div className={styles.cadastro}>
-            <h1>Cadastro de Evento</h1>
-            <FormCadastro fields={fields} btnLabel="Cadastrar Evento" />
+      <>
+        <div className={styles.header}>
+          <TiArrowLeftThick onClick={() => navigate('/eventos')} />
         </div>
-    )
+        <div className={styles.cadastro}>
+          <h1>Cadastro de Evento</h1>
+          <FormCadastro fields={fields} btnLabel="Cadastrar Evento" />
+        </div>
+      </>
+    );
 }
 
 export default CadastroEvento

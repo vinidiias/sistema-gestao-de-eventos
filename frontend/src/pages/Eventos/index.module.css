@@ -8,12 +8,21 @@
 }
 
 .header {
-    padding: 1em;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 1em 4em;
     font-size: .6em;
 }
 
 .header h1 {
+    text-align: center;
+    flex: 1;
     font-weight: 500;
+}
+
+.header button {
+    font-size: 1em;
 }
 
 .header svg {
@@ -22,10 +31,8 @@
 
 .cards_container {
     display: grid;
-    align-items: center;
     justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Colunas flexíveis */
-
+    grid-template-columns: repeat(auto-fit, minmax(435px, max-content)); /* Colunas flexíveis */
     gap: 3em;
     margin-right: auto;
     flex-wrap: wrap;
