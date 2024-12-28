@@ -12,8 +12,9 @@ module.exports = {
         res.status(200).json(result.rows[0])
         }
         catch (err) {
-            res.status(400).send('Erro ao criar evento');
-        }
+            console.error(err); // Logar o erro no console para depuração
+            res.status(400).json({ message: 'Erro ao criar evento', error: err.message });
+        }        
     },
 
     async index (req, res) {
