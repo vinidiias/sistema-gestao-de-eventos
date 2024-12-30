@@ -3,6 +3,13 @@ import Submit from "../Form/Submit"
 import styles from './FormCadastro.module.css'
 
 const FormCadastro = ({ fields, onSubmit, btnLabel }) => {
+
+  const submit = (e) => {
+    e.preventDefault()
+
+    onSubmit()
+  }
+
   const inputs = [];
   for (let i = 0; i < fields.length; i++) {
     const field = fields[i];
@@ -47,7 +54,7 @@ const FormCadastro = ({ fields, onSubmit, btnLabel }) => {
   }
   
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={submit}>
       {inputs}
       <Submit text={btnLabel} />
     </form>
