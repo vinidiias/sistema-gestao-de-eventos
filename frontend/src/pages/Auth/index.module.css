@@ -79,12 +79,18 @@
     .login_container .right_container .logo_right {
         display: block;
     }
+
+    .form_container .titleLogin {
+        text-align: center;
+        margin-bottom: 2em;
+    }
 }
 
 @media(max-width: 470px) {
     .form_container {
         width: 370px;
     }
+
     .form_container .titleLogin h2 {
         font-size: 1.5em;
     }

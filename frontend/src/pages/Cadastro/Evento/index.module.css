@@ -5,7 +5,7 @@
     justify-content: center;
     row-gap: 1em;
     margin: auto;
-    width: 50%;
+    width: 700px;
 }
 
 .cadastro h1 {
@@ -19,4 +19,30 @@
 .header svg {
     font-size: 1.5em;
     cursor: pointer;
+}
+
+@media(max-width: 700px) {
+    .cadastro {
+        width: 500px;
+    }
+
+    .cadastro button {
+        font-size: .8em;
+    }
+}
+
+@media(max-width: 500px) {
+    .cadastro {
+        width: 300px;
+    }
+
+    .cadastro button {
+        font-size: .7em;
+    }
+}
+
+@media(max-width: 300px) {
+    .cadastro {
+        width: 250px;
+    }
 }
