@@ -2,7 +2,7 @@
     padding: 1em;
     display: flex;
     align-items: center;
-    column-gap: 1em;
+    column-gap: .5em;
     color: #1E81CE;
     letter-spacing: 2px;
 }
