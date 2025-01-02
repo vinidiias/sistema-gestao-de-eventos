@@ -22,6 +22,9 @@ const Auth = () => {
                 <LogoNextEvent />
             </div>
             <div className={styles.right_container}>
+                <div className={styles.logo_right}>
+                    <LogoNextEvent />
+                </div>
                 <div className={styles.form_container}>
                     <div className={styles.titleLogin}>
                         <h2>Bem vindo ao NextEvent</h2>
