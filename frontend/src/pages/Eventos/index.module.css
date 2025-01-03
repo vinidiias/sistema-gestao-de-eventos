@@ -35,6 +35,14 @@
     background-color: #EBEFF7;
 }
 
+.btnsEventos {
+    margin: auto;
+}
+
+.btnsEventos button:first-of-type {
+    margin-right: 1em;
+}
+
 .header {
     display: flex;
     align-items: center;

@@ -8,7 +8,7 @@ const Auth = () => {
     const isRegister = url.pathname === '/register'
     const navigate = useNavigate()
 
-    const handleSubmit = (email, password) => {
+    const handleSubmitLogin = (email, password) => {
         if((!email || email === '') ||
            (!password || password === '')) return alert('Campos inválidos!')
         
@@ -16,27 +16,36 @@ const Auth = () => {
         alert('Logado com sucesso!')
     }
 
+    const handleSubmitRegister = (name, email, password) => {
+        if( (!name || name === '') ||
+            (!email || email === '') ||
+            (!password || password === '')) return alert('Campos inválidos!')
+        
+        navigate('/eventos')
+        alert('Registrado com sucesso!')
+    }
+
     return (
-        <div className={styles.login_container}>
-            <div className={styles.left_container}>
-                <LogoNextEvent />
-            </div>
-            <div className={styles.right_container}>
-                <div className={styles.logo_right}>
-                    <LogoNextEvent />
-                </div>
-                <div className={styles.form_container}>
-                    <div className={styles.titleLogin}>
-                        <h2>Bem vindo ao NextEvent</h2>
-                        <h3>{isRegister ? 'Registre' : 'Entre com'} sua conta!</h3>
-                    </div>
-                    <AuthForm 
-                    onSubmit={handleSubmit}
-                    />
-                </div>
-            </div>
+      <div className={styles.login_container}>
+        <div className={styles.left_container}>
+          <LogoNextEvent />
         </div>
-    )
+        <div className={styles.right_container}>
+          <div className={styles.logo_right}>
+            <LogoNextEvent />
+          </div>
+          <div className={styles.form_container}>
+            <div className={styles.titleLogin}>
+              <h2>Bem vindo ao NextEvent</h2>
+              <h3>{isRegister ? "Registre" : "Entre com"} sua conta!</h3>
+            </div>
+            <AuthForm
+              onSubmit={isRegister ? handleSubmitRegister : handleSubmitLogin}
+            />
+          </div>
+        </div>
+      </div>
+    );
 }
 
 export default Auth
