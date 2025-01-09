@@ -1,0 +1,13 @@
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EBEFF7;
+    width: 100%;
+    flex: 1;
+}
+
+.loading img {
+    color: #5257F2;
+    width: 50px;
+}

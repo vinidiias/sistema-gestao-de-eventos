@@ -5,8 +5,9 @@ import LogoUnioeste from '../../assets/unioesteLogo.png'
 import LogoLatinoWare from '../../assets/latinoware.png'
 import Card from '../../components/Card/Card';
 import Submit from '../../components/Form/Submit';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
+import withFetching from '../../hocs/withFetching';
 
 const Evento = ({ title, txtBtn, type }) => {
 
@@ -142,4 +143,13 @@ const Evento = ({ title, txtBtn, type }) => {
     );
 }
 
-export default Evento
+const EventWithFetching = (props) => {
+  const path = useLocation()
+
+  const EventoFetching =  withFetching(Evento, path.pathname)
+
+  return <EventoFetching {...props} />
+}
+
+
+export default EventWithFetching
