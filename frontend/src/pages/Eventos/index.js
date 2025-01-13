@@ -1,12 +1,14 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.module.css'
 import { SlArrowDown } from "react-icons/sl";
-
+import { LuMapPin } from "react-icons/lu";
+import { FaRegCalendar } from "react-icons/fa";
+import { FaRegClock } from "react-icons/fa6";
 import LogoUnioeste from '../../assets/unioesteLogo.png'
 import LogoLatinoWare from '../../assets/latinoware.png'
 import Card from '../../components/Card/Card';
 import Submit from '../../components/Form/Submit';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
 import withFetching from '../../hocs/withFetching';
 
 const Evento = ({ title, txtBtn, type }) => {
@@ -94,7 +96,7 @@ const Evento = ({ title, txtBtn, type }) => {
 
     const handleSubmit = ( index ) => {
       const newEvents = events.filter(event => (event.id !== index))
-      
+      console.log('submit')
       setEvents(newEvents)
     }
 
@@ -119,24 +121,37 @@ const Evento = ({ title, txtBtn, type }) => {
                 <Card
                   index={index}
                   key={index}
-                  img={evento.img}
                   title={evento.title}
-                  address={evento.address}
-                  date={evento.date}
-                  hours={evento.hours}
-                  valor={evento.valor}
-                  vagas={evento.vagas}
                   categoria={evento.categoria}
                   type={type}
-                  handleSubmit={handleSubmit}
-                />
+                  onSubmit={handleSubmit}
+                >
+                  <Card.Content>
+                    <Card.Logo logo={evento.img} />
+                    <Card.ListItem>
+                      <Card.Item logo={<LuMapPin />} text={evento.address} />
+                      <Card.Item logo={<FaRegCalendar />} text={evento.date} />
+                      <Card.Item logo={<FaRegClock />} text={evento.hours} />
+                    </Card.ListItem>
+                  </Card.Content>
+                  <Card.Footer>
+                    <Card.Widget title="Valor" value={evento.valor} />
+                    <Card.Submit title="Participar" />
+                  </Card.Footer>
+                </Card>
               ))}
             </div>
           </>
         ) : (
           <div className={styles.btnsEventos}>
-            <Submit text="Eventos Abertos" onClick={() => navigate('/eventos/abertos')} />
-            <Submit text="Eventos Inscritos" onClick={() => navigate('/eventos/inscritos')} />
+            <Submit
+              text="Eventos Abertos"
+              onClick={() => navigate("/eventos/abertos")}
+            />
+            <Submit
+              text="Eventos Inscritos"
+              onClick={() => navigate("/eventos/inscritos")}
+            />
           </div>
         )}
       </div>

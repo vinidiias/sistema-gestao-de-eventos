@@ -4,7 +4,7 @@ import loading from '../../assets/loading.svg'
 const Loading = () => {
     return (
       <div className={styles.loading}>
-        <img src={loading} alt="Loadking" />
+        <img src={loading} alt="Loading" />
       </div>
     );
 }
