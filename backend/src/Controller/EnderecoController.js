@@ -20,7 +20,9 @@ module.exports = {
 
     async index (req, res) {
         try {
+            const result = await pool.query('SELECT * FROM Endereco')
 
+            return res.status(200).json(result.row)
         }
         catch (err) {
             console.error(err); // Logar o erro no console para depuração

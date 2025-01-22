@@ -1,21 +1,48 @@
 const pool = require("../conexao");
 
 module.exports = {
-    async create (req, res) {
-        const { nomeEvento, dataInicio, dataFim, idEndereco } = req.body
-
+    async create(req, res) {
+        const { nomeEvento, dataInicio, dataFim, cep, rua, cidade, bairro, complemento } = req.body;
+      
         try {
-            const result = await pool.query(
-                'INSERT INTO Evento (nomeEvento, dataInicio, dataFim, idEndereco) VALUES ($1, $2, $3, $4) RETURNING *',
-                [nomeEvento, dataInicio, dataFim, idEndereco]
-            )
-        res.status(200).json(result.rows[0])
+          // 1. Verificar se o endereço existe
+          const enderecoResult = await pool.query(
+            `SELECT idEndereco FROM Endereco 
+             WHERE cep = $1 AND rua = $2 AND cidade = $3 AND bairro = $4 AND complemento = $5`,
+            [cep, rua, cidade, bairro, complemento]
+          );
+      
+          let idEndereco;
+      
+          if (enderecoResult.rowCount > 0) {
+            // Endereço encontrado, obter o ID
+            idEndereco = enderecoResult.rows[0].idendereco; 
+          } else {
+            // 2. Inserir um novo endereço se não existir
+            const novoEnderecoResult = await pool.query(
+              `INSERT INTO Endereco (cep, rua, cidade, bairro, complemento) 
+               VALUES ($1, $2, $3, $4, $5) 
+               RETURNING idEndereco`,
+              [cep, rua, cidade, bairro, complemento]
+            );
+            idEndereco = novoEnderecoResult.rows[0].idendereco;
+          }
+      
+          // 3. Criar o evento
+          const eventoResult = await pool.query(
+            `INSERT INTO Evento (nomeEvento, dataInicio, dataFim, idEndereco) 
+             VALUES ($1, $2, $3, $4) 
+             RETURNING *`,
+            [nomeEvento, dataInicio, dataFim, idEndereco]
+          );
+      
+          // Retornar o evento criado
+          res.status(201).json(eventoResult.rows[0]);
+        } catch (err) {
+          console.error(err); // Logar o erro para depuração
+          res.status(400).json({ message: 'Erro ao criar evento', error: err.message });
         }
-        catch (err) {
-            console.error(err); // Logar o erro no console para depuração
-            res.status(400).json({ message: 'Erro ao criar evento', error: err.message });
-        }        
-    },
+      },
 
     async index (req, res) {
         try{

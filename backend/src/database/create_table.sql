@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS Evento (
 
 CREATE TABLE IF NOT EXISTS Responsavel (
     idResponsavel SERIAL PRIMARY KEY,
+    nomeResponsavel VARCHAR(100),
     email VARCHAR(100),
     telefone VARCHAR(20),
     cpf VARCHAR(14)
