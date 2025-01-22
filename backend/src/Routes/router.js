@@ -2,6 +2,7 @@ const { Router } = require('express')
 const EventoController = require('../Controller/EventoController')
 const EnderecoController = require('../Controller/EnderecoController')
 const ParticipanteController = require('../Controller/ParticipanteController.js')
+const ParticipanteEventoController = require('../Controller/ParticipanteEventoController.js')
 
 const routes = Router()
 
@@ -22,5 +23,11 @@ routes.post('/participante', ParticipanteController.create)
 routes.get('/participante', ParticipanteController.index)
 routes.put('/participante/:id', ParticipanteController.update)
 routes.delete('/participante/:id', ParticipanteController.delete)
+
+//ParticiapnteEvento
+routes.post('/participanteevento/:idevento/:idparticipante', ParticipanteEventoController.create)
+routes.get('/participanteevento/:idevento', ParticipanteEventoController.index)
+//routes.put('/participante/:id', ParticipanteController.update)
+//routes.delete('/participante/:id', ParticipanteController.delete)
 
 module.exports = routes
