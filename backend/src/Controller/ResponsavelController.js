@@ -1,3 +1,4 @@
+//tem q receber um codigo valicao
 const pool = require('../conexao');
 
 module.exports = {
