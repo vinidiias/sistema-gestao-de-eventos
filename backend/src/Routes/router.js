@@ -8,7 +8,7 @@ const routes = Router()
 routes.post('/evento', EventoController.create)
 routes.get('/eventos', EventoController.index)
 routes.put('/evento/:id', EventoController.update)
-routes.delete('/evento/"id', EventoController.delete)
+routes.delete('/evento/:id', EventoController.delete)
 
 //Endereco
 routes.post('/endereco', EnderecoController.create)
