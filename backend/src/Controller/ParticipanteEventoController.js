@@ -87,8 +87,53 @@ module.exports = {
             console.error(err); // Logar o erro para depuração
             return res.status(500).json({ message: 'Erro ao buscar participantes do evento', error: err.message });
         }
+    },
+
+    async update (req, res) {
+        const {idevento} = req.params
+        const {cpf, nomeParticipante} = req.body 
+
+        try {
+            // Verificar se o evento existe
+            const eventoResult = await pool.query(
+                `SELECT idEvento FROM Evento WHERE idEvento = $1`,
+                [idevento]
+            );
+            if (eventoResult.rowCount === 0) {
+                return res.status(400).json({ message: 'Evento não foi encontrado' });
+            }
+
+            const participante = await pool.query(`SELECT idParticipante FROM Participante WHERE cpf = $1 AND nomeParticipante = $2`, [cpf, nomeParticipante])
+            if(participante.rowCount === 0) return res.status(400).json({ message: 'Participante não encontrado' });
+
+            // Verificar se o participante existe no evento
+            const participanteEventoResult = await pool.query(
+                `SELECT * FROM ParticipanteEvento 
+                 WHERE idEvento = $1 AND idParticipante = $2`,
+                [idevento, participante.rows[0].idparticipante]
+            );
+            if (participanteEventoResult.rowCount === 0) {
+                return res.status(400).json({ message: 'Participante não encontrado no evento' });
+            }
+    
+            // Atualizar o status para "Cancelado"
+            const result = await pool.query(
+                `UPDATE ParticipanteEvento 
+                 SET statusParticipanteEvento = $1 
+                 WHERE idEvento = $2 AND idParticipante = $3 
+                 RETURNING *`,
+                ["Cancelado", idevento, participante.rows[0].idparticipante]
+            );
+    
+            return res.status(200).json({
+                message: 'Status do participante atualizado para "Cancelado"',
+                participanteEvento: result.rows[0]
+            });
+
+        }catch (err) {
+            console.error(err); // Logar o erro para depuração
+            return res.status(500).json({ message: 'Erro ao atualizar status', error: err.message });
+        }
     }
-    
-    
-    
+
 }

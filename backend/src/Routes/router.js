@@ -27,7 +27,7 @@ routes.delete('/participante/:id', ParticipanteController.delete)
 //ParticiapnteEvento
 routes.post('/participanteevento/:idevento/:idparticipante', ParticipanteEventoController.create)
 routes.get('/participanteevento/:idevento', ParticipanteEventoController.index)
-//routes.put('/participante/:id', ParticipanteController.update)
+routes.put('/participanteevento/:idevento', ParticipanteEventoController.update)
 //routes.delete('/participante/:id', ParticipanteController.delete)
 
 module.exports = routes
