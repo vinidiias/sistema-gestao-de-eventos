@@ -10,6 +10,7 @@ module.exports = {
                 `SELECT idParticipante FROM Participante WHERE idParticipante = $1`, 
                 [idparticipante]
             );
+
             if (participanteResult.rowCount === 0) {
                 return res.status(400).json({ message: 'Participante não foi encontrado' });
             }
@@ -19,6 +20,7 @@ module.exports = {
                 `SELECT idEvento FROM Evento WHERE idEvento = $1`, 
                 [idevento]
             );
+            
             if (eventoResult.rowCount === 0) {
                 return res.status(400).json({ message: 'Evento não foi encontrado' });
             }

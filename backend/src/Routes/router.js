@@ -6,6 +6,7 @@ const ParticipanteEventoController = require('../Controller/ParticipanteEventoCo
 const TipoAcaoController = require('../Controller/TipoAcaoController.js')
 const ResponsavelController = require('../Controller/ResponsavelController.js')
 const AcaoController = require('../Controller/AcaoController.js')
+const AcaoEventoController = require('../Controller/AcaoEventoController.js')
 
 const routes = Router()
 
@@ -47,13 +48,14 @@ routes.delete('/responsavel/:idResponsavel', ResponsavelController.delete)
 routes.post('/acao', AcaoController.create)
 routes.get('/acao', AcaoController.index)
 routes.put('/acao/:idAcao', AcaoController.update)
-routes.post('/acao/:idAcao', AcaoController.delete)
+routes.delete('/acao/:idAcao', AcaoController.delete)
 
 
 //AcaoEvento
+routes.post('/acaoevento/:idEvento/:idAcao', AcaoEventoController.create)
+routes.get('/acaoevento/:idEvento', AcaoEventoController.index)
+routes.put('/acao/:idEvento/:idAcao', AcaoEventoController.update)
 
-
-//ParticipanteAcaoEvento
 
 
 
