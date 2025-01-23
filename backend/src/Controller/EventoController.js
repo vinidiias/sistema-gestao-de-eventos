@@ -2,7 +2,7 @@ const pool = require("../conexao");
 
 module.exports = {
     async create(req, res) {
-        const { nomeEvento, dataInicio, dataFim, cep, rua, cidade, bairro, complemento } = req.body;
+        const { nomeEvento, dataInicio, dataFim, cep, rua, cidade, bairro, complemento, horario } = req.body;
       
         try {
           // 1. Verificar se o endereço existe
@@ -30,10 +30,10 @@ module.exports = {
       
           // 3. Criar o evento
           const eventoResult = await pool.query(
-            `INSERT INTO Evento (nomeEvento, dataInicio, dataFim, idEndereco) 
-             VALUES ($1, $2, $3, $4) 
+            `INSERT INTO Evento (nomeEvento, dataInicio, dataFim, idEndereco, horario) 
+             VALUES ($1, $2, $3, $4, $5) 
              RETURNING *`,
-            [nomeEvento, dataInicio, dataFim, idEndereco]
+            [nomeEvento, dataInicio, dataFim, idEndereco, horario]
           );
       
           // Retornar o evento criado
@@ -55,14 +55,36 @@ module.exports = {
         }
     },
 
-    async update (req, res) {
+    async update (req, res) { //confia
         const { id } = req.params
-        const { nomeEvento, dataInicio, dataFim, idEndereco } = req.body
+        const { nomeEvento, dataInicio, dataFim, cep, rua, cidade, bairro, complemento, horario } = req.body
 
         try {
+          // 1. Verificar se o endereço existe
+          const enderecoResult = await pool.query(
+            `SELECT idEndereco FROM Endereco 
+             WHERE cep = $1 AND rua = $2 AND cidade = $3 AND bairro = $4 AND complemento = $5`,
+            [cep, rua, cidade, bairro, complemento]
+          );
+      
+          let idEndereco;
+      
+          if (enderecoResult.rowCount > 0) {
+            // Endereço encontrado, obter o ID
+            idEndereco = enderecoResult.rows[0].idendereco; 
+          } else {
+            // 2. Inserir um novo endereço se não existir
+            const novoEnderecoResult = await pool.query(
+              `INSERT INTO Endereco (cep, rua, cidade, bairro, complemento) 
+               VALUES ($1, $2, $3, $4, $5) 
+               RETURNING idEndereco`,
+              [cep, rua, cidade, bairro, complemento]
+            );
+            idEndereco = novoEnderecoResult.rows[0].idendereco;
+          }
             const result = await pool.query(
-                'UPDATE Evento SET nomeEvento = $1, dataInicio = $2, dataFim = $3, idEndereco = $4 WHERE idEvento = $5 RETURNING *',
-                [nomeEvento, dataInicio, dataFim, idEndereco, id]
+                'UPDATE Evento SET nomeEvento = $1, dataInicio = $2, dataFim = $3, idEndereco = $4, horario = $5 WHERE idEvento = $6 RETURNING *',
+                [nomeEvento, dataInicio, dataFim, idEndereco, horario, id]
             )
             return res.status(200).json(result.rows[0])
         }

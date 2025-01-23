@@ -3,6 +3,10 @@ const EventoController = require('../Controller/EventoController')
 const EnderecoController = require('../Controller/EnderecoController')
 const ParticipanteController = require('../Controller/ParticipanteController.js')
 const ParticipanteEventoController = require('../Controller/ParticipanteEventoController.js')
+const TipoAcaoController = require('../Controller/TipoAcaoController.js')
+const ResponsavelController = require('../Controller/ResponsavelController.js')
+const AcaoController = require('../Controller/AcaoController.js')
+const AcaoEventoController = require('../Controller/AcaoEventoController.js')
 
 const routes = Router()
 
@@ -27,7 +31,32 @@ routes.delete('/participante/:id', ParticipanteController.delete)
 //ParticiapnteEvento
 routes.post('/participanteevento/:idevento/:idparticipante', ParticipanteEventoController.create)
 routes.get('/participanteevento/:idevento', ParticipanteEventoController.index)
-//routes.put('/participante/:id', ParticipanteController.update)
-//routes.delete('/participante/:id', ParticipanteController.delete)
+routes.put('/participanteevento/:idevento', ParticipanteEventoController.update)
+
+//TipoAcao
+routes.post('/tipoacao', TipoAcaoController.create)
+routes.get('/tipoacao', TipoAcaoController.index)
+routes.delete('/tipoacao/:idTipoAcao', TipoAcaoController.delete)
+
+//Responsavel
+routes.post('/responsavel', ResponsavelController.create)
+routes.get('/responsavel', ResponsavelController.index)
+routes.put('/responsavel/:idResponsavel', ResponsavelController.update)
+routes.delete('/responsavel/:idResponsavel', ResponsavelController.delete)
+
+//Acao
+routes.post('/acao', AcaoController.create)
+routes.get('/acao', AcaoController.index)
+routes.put('/acao/:idAcao', AcaoController.update)
+routes.delete('/acao/:idAcao', AcaoController.delete)
+
+
+//AcaoEvento
+routes.post('/acaoevento/:idEvento/:idAcao', AcaoEventoController.create)
+routes.get('/acaoevento/:idEvento', AcaoEventoController.index)
+routes.put('/acao/:idEvento/:idAcao', AcaoEventoController.update)
+
+
+
 
 module.exports = routes
