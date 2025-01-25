@@ -1,41 +1,20 @@
 const bcrypt = require('bcrypt')
 const pool = require("../conexao");
 
-async function hashPassword(password) {
-    try{
-        const salt = await bcrypt.genSalt(5)
-        const encryptedPassword = await bcrypt.hash(password, salt)
-        return encryptedPassword
-    }catch(err){
-        return err
-    }
-}
 
 module.exports = {
     async create(req, res) {
-        const { nomeParticipante, email, telefone, cpf, senha, confirmacaoSenha } = req.body;
+        const { nomeParticipante, email, telefone, cpf, senha} = req.body;
     
         try {
-            // Validação: verificar se senha e confirmação correspondem
-            if (senha !== confirmacaoSenha) {
-                return res.status(400).json({ message: 'As senhas não correspondem' });
-            }
-    
-            // Verificar se o e-mail já está cadastrado (CORRIGIDO)
-            const emailExist = await pool.query('SELECT * FROM Participante WHERE email = $1', [email]);
-            if (emailExist.rowCount > 0) {
-                return res.status(400).json({ message: 'E-mail já cadastrado' });
-            }
-    
+            
             // Verificar se o CPF já está cadastrado
             const cpfExiste = await pool.query('SELECT * FROM Participante WHERE cpf = $1', [cpf]);
             if (cpfExiste.rowCount > 0) {
                 return res.status(400).json({ message: 'CPF já cadastrado' });
             }
     
-            // Criptografar a senha
-            const hashedPassword = await hashPassword(senha);
-    
+            
             // Inserir no banco de dados
             const result = await pool.query(
                 `INSERT INTO Participante 

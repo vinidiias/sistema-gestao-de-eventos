@@ -16,12 +16,19 @@ CREATE TABLE IF NOT EXISTS Evento (
     FOREIGN KEY (idEndereco) REFERENCES Endereco(idEndereco)
 );
 
+CREATE TABLE IF NOT EXISTS Usuario (
+    idusuario SERIAL PRIMARY KEY,
+    email VARCHAR(100),
+    senha VARCHAR(100),
+);
+
 CREATE TABLE IF NOT EXISTS Responsavel (
     idResponsavel SERIAL PRIMARY KEY,
     nomeResponsavel VARCHAR(100),
-    email VARCHAR(100),
     telefone VARCHAR(20),
     cpf VARCHAR(14)
+    FOREIGN KEY (idusuario) REFERENCES Usuario(idUsuario)
+
 );
 
 CREATE TABLE IF NOT EXISTS Acao (
@@ -48,11 +55,9 @@ CREATE TABLE IF NOT EXISTS AcaoEvento (
 CREATE TABLE IF NOT EXISTS Participante (
     idParticipante SERIAL PRIMARY KEY,
     nomeParticipante VARCHAR(100),
-    email VARCHAR(100),
     telefone VARCHAR(20),
     cpf VARCHAR(14),
-    status VARCHAR(20),
-    senha VARCHAR(50)
+    FOREIGN KEY (idusuario) REFERENCES Usuario(idUsuario)
 );
 
 CREATE TABLE IF NOT EXISTS TipoAcao (

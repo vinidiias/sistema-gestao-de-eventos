@@ -7,6 +7,8 @@ const TipoAcaoController = require('../Controller/TipoAcaoController.js')
 const ResponsavelController = require('../Controller/ResponsavelController.js')
 const AcaoController = require('../Controller/AcaoController.js')
 const AcaoEventoController = require('../Controller/AcaoEventoController.js')
+const UsuarioController = require('../Controller/UsuarioController.js')
+const SessaoController = require('../Controller/SessaoController.js')
 
 const routes = Router()
 
@@ -56,7 +58,11 @@ routes.post('/acaoevento/:idEvento/:idAcao', AcaoEventoController.create)
 routes.get('/acaoevento/:idEvento', AcaoEventoController.index)
 routes.put('/acao/:idEvento/:idAcao', AcaoEventoController.update)
 
+//Usuario
+routes.post('/usuario', UsuarioController.create)
 
+//Sessao
+routes.post('/sessao', SessaoController.login)
 
 
 module.exports = routes
