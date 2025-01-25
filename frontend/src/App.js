@@ -1,5 +1,6 @@
 import './App.css';
 import Auth from './pages/Auth'
+import Login from './pages/Auth/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import CadastroEvento from './pages/Cadastro/Evento';
 import Container from './components/Layout/Container';
@@ -9,6 +10,7 @@ import CadastroAcoes from './pages/Cadastro/SubEventos';
 import Contact from './pages/Contact';
 import Empresa from './pages/Empresa';
 import EventWithFetching from './pages/Eventos';
+import Register from './pages/Auth/Register';
 
 function App() {
   return (
@@ -16,8 +18,8 @@ function App() {
         <Routes>
           
           <Route element={<LayoutWithoutLayout />}>
-            <Route path="/login" element={<Auth />} />
-            <Route path="/register" element={<Auth />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Route>
 
           <Route element={<LayoutWithLayout />} >

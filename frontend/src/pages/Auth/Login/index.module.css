@@ -1,0 +1,113 @@
+.login_container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    height: 100%;
+    width: 100%;
+}
+
+.left_container {
+    background-color: #FAF8FD;
+    background-image: url('../../../assets/Logo.png');
+    background-position: center;
+    background-size: 200px;
+    background-repeat: no-repeat;
+}
+
+.logo {
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
+    color: #1E81CE;
+    letter-spacing: 2px;
+}
+
+.logo h1 {
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.logo svg {
+    font-size: 1.2em;
+}
+
+.right_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo_right {
+    display: none;
+}
+
+.form_container {
+    width: 400px;
+}
+
+.titleLogin {
+    margin-bottom: 3em;
+}
+
+.titleLogin h2 {
+    font-size: 2em;
+    font-weight: bolder;
+    margin-bottom: .2em;
+}
+
+.titleLogin h3 {
+    color: rgb(87, 87, 87);
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.btns {
+    display: flex;
+    gap: 1em;
+}
+@media(max-width: 1000px) {
+    .login_container {
+        grid-template-columns: 1fr;
+    }
+
+    .login_container .left_container {
+        display: none;
+    }
+
+    .login_container .right_container {
+        flex-direction: column;
+        gap: 2em;
+        width: 100%;
+    }
+
+    .login_container .right_container .logo_right {
+        display: block;
+    }
+
+    .form_container .titleLogin {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+}
+
+@media(max-width: 470px) {
+    .form_container {
+        width: 370px;
+    }
+
+    .form_container .titleLogin h2 {
+        font-size: 1.5em;
+    }
+
+    .form_container .titleLogin h3 {
+        font-size: .9em;
+    }
+
+    .form_container form label {
+        font-size: .8em;
+    }
+
+    .form_container form button {
+        font-size: .8em;
+    }
+}

@@ -10,6 +10,7 @@ import LogoLatinoWare from '../../assets/latinoware.png'
 import Card from '../../components/Card/Card';
 import Submit from '../../components/Form/Submit';
 import withFetching from '../../hocs/withFetching';
+import api from '../../services/Api.js'
 
 const Evento = ({ title, txtBtn, type }) => {
 
@@ -90,6 +91,16 @@ const Evento = ({ title, txtBtn, type }) => {
     ], [])
 
     useEffect(() => {
+      const fetch = async () => {
+        await api.get('http://localhost:5000/evento')
+        .then((resp) => console.log(resp))
+        .catch((error) => console.log(error))
+      }
+
+      fetch()
+    }, [])
+
+    useEffect(() => {
       if(type === 'open') setEvents(eventosAbertos)
       else setEvents(eventosInscritos)
     },[type, eventosAbertos, eventosInscritos])
@@ -112,7 +123,7 @@ const Evento = ({ title, txtBtn, type }) => {
               {txtBtn && (
                 <Submit
                   text={txtBtn}
-                  onClick={() => navigate("/eventos/cadastro/evento")}
+                  onClick={() => navigate("/admin/eventos/cadastro/evento")}
                 />
               )}
             </div>
