@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Evento (
     dataInicio DATE,
     dataFim DATE,
     idEndereco INT,
+    horario VARCHAR(10)
     FOREIGN KEY (idEndereco) REFERENCES Endereco(idEndereco)
 );
 
@@ -36,8 +37,9 @@ CREATE TABLE IF NOT EXISTS Acao (
     nomeAcao VARCHAR(100),
     tipoAcao VARCHAR(50),
     idResponsavel INT,
-    valor DECIMAL(10, 2),
+    valor VARCHAR(50),
     numVagas INT,
+    horario VARCHAR(10)
     FOREIGN KEY (idResponsavel) REFERENCES Responsavel(idResponsavel)
 );
 

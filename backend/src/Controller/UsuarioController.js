@@ -34,10 +34,21 @@ module.exports = {
                 message: 'Usuário criado com sucesso',
                 usuario: result.rows[0]
             });
-            
+
         } catch (err) {
             console.error(err);
             res.status(400).json({ message: 'Erro ao criar usuário', error: err.message });
+        }
+    }, 
+
+    async index (req, res){
+        try{
+            const result = await pool.query('SELECT * FROM Usuario');
+            res.status(200).json(result.rows);
+            
+        } catch (err) {
+            console.error(err); // Logar o erro para depuração
+            res.status(500).json({ message: 'Erro ao buscar Usuarios', error: err.message });
         }
     }
 }

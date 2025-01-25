@@ -12,18 +12,17 @@ module.exports = {
         return res.status(400).json({ message: 'CPF já cadastrado' });
       }
 
-      // Verificar se o email já está cadastrado
-      const emailExist = await pool.query('SELECT * FROM Responsavel WHERE email = $1', [email]);
-      if (emailExist.rowCount > 0) {
-        return res.status(400).json({ message: 'E-mail já cadastrado' });
-      }
+      const emailResult = await pool.query(`SELECT * FROM Usuario WHERE email = $1`, [email])
+            if(emailResult.rowCount[0] === 0){
+                return res.status(400).json({ message: 'Email nao econtrado' });
+            }
 
       // Inserir o responsável no banco de dados
       const result = await pool.query(
-        `INSERT INTO Responsavel (email, telefone, cpf, nomeresponsavel) 
+        `INSERT INTO Responsavel (nomeresponsavel, telefone, cpf, idusuario) 
          VALUES ($1, $2, $3, $4) 
          RETURNING *`,
-        [email, telefone, cpf, nome]
+        [nome, telefone, cpf, emailResult.rows[0].idusuario]
       );
 
       // Retornar o responsável cadastrado
@@ -38,7 +37,7 @@ module.exports = {
   async index(req, res) {
     try {
         const result = await pool.query(
-            `SELECT idResponsavel, nomeresponsavel, email, telefone, cpf FROM Responsavel`
+            `SELECT * FROM Responsavel`
         );
         return res.status(200).json(result.rows); // Retorna todos os registros
     } catch (err) {
