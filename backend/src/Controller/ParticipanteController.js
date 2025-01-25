@@ -1,52 +1,36 @@
 const bcrypt = require('bcrypt')
 const pool = require("../conexao");
 
-async function hashPassword(password) {
-    try{
-        const salt = await bcrypt.genSalt(5)
-        const encryptedPassword = await bcrypt.hash(password, salt)
-        return encryptedPassword
-    }catch(err){
-        return err
-    }
-}
 
 module.exports = {
     async create(req, res) {
-        const { nomeParticipante, email, telefone, cpf, senha, confirmacaoSenha } = req.body;
+        const { nomeParticipante, email, telefone, cpf} = req.body;
     
         try {
-            // Validação: verificar se senha e confirmação correspondem
-            if (senha !== confirmacaoSenha) {
-                return res.status(400).json({ message: 'As senhas não correspondem' });
-            }
-    
-            // Verificar se o e-mail já está cadastrado (CORRIGIDO)
-            const emailExist = await pool.query('SELECT * FROM Participante WHERE email = $1', [email]);
-            if (emailExist.rowCount > 0) {
-                return res.status(400).json({ message: 'E-mail já cadastrado' });
-            }
-    
+            
             // Verificar se o CPF já está cadastrado
             const cpfExiste = await pool.query('SELECT * FROM Participante WHERE cpf = $1', [cpf]);
             if (cpfExiste.rowCount > 0) {
                 return res.status(400).json({ message: 'CPF já cadastrado' });
             }
-    
-            // Criptografar a senha
-            const hashedPassword = await hashPassword(senha);
+
+            const emailResult = await pool.query(`SELECT * FROM Usuario WHERE email = $1`, [email])
+            if(emailResult.rowCount[0] === 0){
+                return res.status(400).json({ message: 'Email nao econtrado' });
+            }
     
             // Inserir no banco de dados
             const result = await pool.query(
                 `INSERT INTO Participante 
-                (nomeParticipante, email, telefone, cpf, senha) 
-                VALUES ($1, $2, $3, $4, $5) 
+                (nomeParticipante, telefone, cpf, idusuario) 
+                VALUES ($1, $2, $3, $4) 
                 RETURNING *`,
-                [nomeParticipante, email, telefone, cpf, hashedPassword]
+                [nomeParticipante, telefone, cpf, emailResult.rows[0].idusuario]
             );
     
             // Retornar o participante cadastrado
             res.status(201).json(result.rows[0]);
+            
         } catch (err) {
             console.error(err); // Logar o erro para depuração
             res.status(400).json({ message: 'Erro ao cadastrar participante', error: err.message });

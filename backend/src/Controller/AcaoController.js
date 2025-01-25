@@ -2,7 +2,7 @@ const pool = require("../conexao");
 
 module.exports = {
     async create(req, res) {
-        const { nomeAcao, tipoAcao, cpfResponsavel, valor, numVagas } = req.body;
+        const { nomeAcao, tipoAcao, cpfResponsavel, valor, numVagas, horario } = req.body;
     
         try {
             // Verificar se o tipo de ação existe
@@ -29,19 +29,21 @@ module.exports = {
             
             // Inserir a ação na tabela Acao
             const result = await pool.query(
-                `INSERT INTO Acao (nomeAcao, idResponsavel, valor, numVagas, idTipoAcao)
-                 VALUES ($1, $2, $3, $4, $5)
+                `INSERT INTO Acao (nomeAcao, idResponsavel, valor, numVagas, idTipoAcao, horario)
+                 VALUES ($1, $2, $3, $4, $5, $6)
                  RETURNING *`,
                 [
                     nomeAcao,
-                    idResponsavel, // Passa o valor correto do ID
+                    idResponsavel, 
                     valor,
                     numVagas,
-                    idTipoAcao // Passa o valor correto do ID
+                    idTipoAcao, 
+                    horario
                 ]
             );
     
             return res.status(201).json(result.rows[0]); // Retornar a ação criada
+
         } catch (err) {
             console.error(err); // Logar o erro para depuração
             return res.status(500).json({ message: 'Erro ao criar a ação', error: err.message });
@@ -88,7 +90,7 @@ module.exports = {
     async index(req, res) {
         try {
             const result = await pool.query(
-                `SELECT a.idAcao, a.nomeAcao, a.valor, a.numVagas, t.nomeTipoAcao, r.email AS emailResponsavel, r.nomeResponsavel
+                `SELECT a.idAcao, a.nomeAcao, a.valor, a.numVagas, t.nomeTipoAcao, r.nomeResponsavel
                  FROM Acao a
                  INNER JOIN TipoAcao t ON a.idTipoAcao = t.idTipoAcao
                  INNER JOIN Responsavel r ON a.idResponsavel = r.idResponsavel`
@@ -118,6 +120,43 @@ module.exports = {
             console.error(err); // Logar o erro para depuração
             return res.status(500).json({ message: 'Erro ao excluir a ação', error: err.message });
         }
-    }   
+    },
+
+    async  listAcoesPorTipo(req, res) {
+        try {
+            const result = await pool.query(
+                `SELECT 
+                    t.nomeTipoAcao AS tipoAcao, 
+                    a.idAcao, 
+                    a.nomeAcao, 
+                    a.valor, 
+                    a.numVagas
+                 FROM 
+                    Acao a
+                 INNER JOIN 
+                    TipoAcao t ON a.idTipoAcao = t.idTipoAcao
+                 ORDER BY 
+                    t.nomeTipoAcao, a.nomeAcao`
+            );
+    
+            const groupedAcoes = result.rows.reduce((acc, acao) => {
+                if (!acc[acao.tipoacao]) {
+                    acc[acao.tipoacao] = [];
+                }
+                acc[acao.tipoacao].push({
+                    idAcao: acao.idacao,
+                    nomeAcao: acao.nomeacao,
+                    valor: acao.valor,
+                    numVagas: acao.numvagas,
+                });
+                return acc;
+            }, {});
+    
+            res.status(200).json(groupedAcoes);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Erro ao listar ações por tipo', error: err.message });
+        }
+    }
     
 }
