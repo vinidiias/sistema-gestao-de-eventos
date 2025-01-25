@@ -1,16 +1,16 @@
 const express = require('express');
+const cors = require('cors')
 const router = require('./Routes/router')
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}))
 
 // Middleware para JSON
 app.use(express.json());
 app.use(router)
-
-// Rota de teste
-app.get('/', (req, res) => {
-  res.send('API está funcionando!');
-});
-
 
 // Porta do servidor
 const PORT = 5000;
