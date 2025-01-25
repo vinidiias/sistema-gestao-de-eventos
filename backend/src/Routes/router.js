@@ -50,6 +50,7 @@ routes.delete('/responsavel/:idResponsavel', ResponsavelController.delete)
 //Acao
 routes.post('/acao', AcaoController.create)
 routes.get('/acao', AcaoController.index)
+routes.get('acaotipo', AcaoController.listAcoesPorTipo)
 routes.put('/acao/:idAcao', AcaoController.update)
 routes.delete('/acao/:idAcao', AcaoController.delete)
 
