@@ -7,6 +7,7 @@ const Contact = () => {
           <h1>
             Contato
           </h1>
+          <h3>+55 45 991330882</h3>
         </div>
       </div>
     );

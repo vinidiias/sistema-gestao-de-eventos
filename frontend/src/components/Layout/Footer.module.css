@@ -16,3 +16,12 @@
     font-size: 1.1em;
     list-style: none;
 }
+
+.footer ul > li {
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.footer ul > li:hover {
+    color: rgb(224, 224, 224);
+}

@@ -1,8 +1,31 @@
+import { useEffect, useState } from "react"
 import Input from "../Form/Input"
 import Submit from "../Form/Submit"
 import styles from './FormCadastro.module.css'
 
 const FormCadastro = ({ fields, onSubmit, btnLabel }) => {
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  console.log(screenWidth)
+  useEffect(() => {
+    const changeWidth = () => setScreenWidth(window.innerWidth)
+
+    // Adicionar listener ao redimensionamento
+    window.addEventListener("resize", changeWidth);
+
+    // Remover listener quando o componente for desmontado
+    return () => {
+      window.removeEventListener("resize", changeWidth);
+    };
+
+  }, [])
+
+  const submit = (e) => {
+    e.preventDefault()
+
+    onSubmit()
+  }
+
   const inputs = [];
   for (let i = 0; i < fields.length; i++) {
     const field = fields[i];
@@ -19,7 +42,7 @@ const FormCadastro = ({ fields, onSubmit, btnLabel }) => {
               onHandler={field.onChange}
               text={field.label}
             />
-            -
+            {window.innerWidth  <= 300 ? '' : '-'}
             <Input
               name={nextField.name}
               type={nextField.type || "text"}
@@ -47,7 +70,7 @@ const FormCadastro = ({ fields, onSubmit, btnLabel }) => {
   }
   
   return (
-    <form onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={submit}>
       {inputs}
       <Submit text={btnLabel} />
     </form>

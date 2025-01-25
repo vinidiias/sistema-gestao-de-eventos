@@ -1,5 +1,22 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
 .date { 
     display: flex;
     gap: 1em;
     align-items: center;
+}
+
+@media(max-width: 500px) {
+    .form button {
+        align-self: center;
+    }
+}
+
+@media(max-width: 300px) {
+    .date {
+        display: block;
+    }
 }

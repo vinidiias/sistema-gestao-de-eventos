@@ -21,6 +21,29 @@
     list-style: none;
 }
 
+@media(max-width: 453px) {
+    .navbar h1 {
+        font-size: 1em;
+    }
+
+    .navbar svg {
+        font-size: 1em;
+    }
+
+    .navbar ul > li > a {
+        font-size: .9em;
+    }
+}
+
+@media(max-width: 409px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar ul {
+        margin-left: 0;
+    }
+}
 .navbar ul > li > a {
     color: white;
     text-decoration: none;

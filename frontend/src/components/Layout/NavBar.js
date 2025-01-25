@@ -9,7 +9,7 @@ const NavBar = () => {
     return (
       <nav className={styles.navbar}>
         <LogoNextEvent
-            onClick={() => navigate('/eventos')}
+            onClick={() => navigate('/eventos/abertos')}
         />
         <ul>
           <li>
