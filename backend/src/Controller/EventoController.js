@@ -44,14 +44,28 @@ module.exports = {
         }
       },
 
-    async index (req, res) {
-        try{
-            const result = await pool.query('SELECT * FROM Evento')
-
-            return res.status(200).json(result.rows)
-        }
-        catch (err) {
-            return res.status(400).send(err)
+      async index(req, res) {
+        try {
+            const result = await pool.query(
+                `SELECT 
+                    e.idevento, 
+                    e.nomeevento, 
+                    e.datainicio, 
+                    e.datafim, 
+                    en.idendereco, 
+                    en.cep, 
+                    en.rua, 
+                    en.cidade, 
+                    en.bairro, 
+                    en.complemento
+                 FROM Evento e
+                 INNER JOIN Endereco en ON e.idendereco = en.idendereco`
+            );
+    
+            return res.status(200).json(result.rows); // Retorna os eventos com endereços
+        } catch (err) {
+            console.error(err);
+            return res.status(400).json({ message: 'Erro ao listar eventos', error: err.message });
         }
     },
 
