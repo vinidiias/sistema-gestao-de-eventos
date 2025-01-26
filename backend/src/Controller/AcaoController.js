@@ -130,7 +130,7 @@ module.exports = {
                     a.idAcao, 
                     a.nomeAcao, 
                     a.valor, 
-                    a.numVagas
+                    a.numVagas,
                     a.horario
                  FROM 
                     Acao a
