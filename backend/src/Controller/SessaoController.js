@@ -32,7 +32,7 @@ module.exports = {
             }
  
             // Retornar sucesso e (opcionalmente) algum token ou informações do usuário
-            return res.status(200).json({ message: 'Login successful', user: { id: user.id, email: user.email }, role });
+            return res.status(200).json({ message: 'Login successful', user: { id: user.idusuario, email: user.email }, role });
     
         } catch (err) {
             console.error(err); // Logar o erro para depuração
