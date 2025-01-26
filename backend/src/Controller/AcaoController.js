@@ -130,7 +130,8 @@ module.exports = {
                     a.idAcao, 
                     a.nomeAcao, 
                     a.valor, 
-                    a.numVagas
+                    a.numVagas,
+                    a.horario
                  FROM 
                     Acao a
                  INNER JOIN 
@@ -155,8 +156,7 @@ module.exports = {
             res.status(200).json(groupedAcoes);
         } catch (err) {
             console.error(err);
-            res.status(500).json({ message: 'Erro ao listar ações por tipo', error: err.message });
+            res.status(400).json({ message: 'Erro ao listar ações por tipo', error: err.message });
         }
     }
-    
 }
