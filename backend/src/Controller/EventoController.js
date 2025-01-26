@@ -52,6 +52,7 @@ module.exports = {
                     e.nomeevento, 
                     e.datainicio, 
                     e.datafim, 
+                    e.horario,
                     en.idendereco, 
                     en.cep, 
                     en.rua, 
