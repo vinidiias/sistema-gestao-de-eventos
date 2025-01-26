@@ -1,42 +1,89 @@
-import styles from './Card.module.css'
-import { LuMapPin } from "react-icons/lu";
-import { FaRegCalendar } from "react-icons/fa";
-import { FaRegClock } from "react-icons/fa6";
+import styles from "./Card.module.css";
+import React, { createContext, useContext } from "react";
+import { useEffect, useState } from "react";
 
-const Card = ({ img, title, address, date, hours, valor, vagas, categoria }) => {
-    return (
-      <div className={styles.card}>
-        <div className={styles.info}>
-          <img src={img} alt="" />
-          <div className={styles.content}>
-            <h2>{title}</h2>
-            <div className={styles.item}>
-              <LuMapPin />
-              <p>{address}</p>
-            </div>
-            <div className={styles.item}>
-              <FaRegCalendar />
-              <p>{date}</p>
-            </div>
-            <div className={styles.item}>
-              <FaRegClock />
-              <p>{hours}</p>
-            </div>
-          </div>
-        </div>
-        <div className={styles.btns}>
-          <div className={styles.widget}>
-            <h3>Valor</h3>
-            <p>R$ {valor}</p>
-          </div>
-          <div className={styles.widget}>
-            <h3>Vagas</h3>
-            <p>{vagas}</p>
-          </div>
-          <button>Participar{categoria !== ` ${categoria}` ? '' : ''}</button>
-        </div>
+const SubmitContext = createContext()
+
+const Card = ({
+  index,
+  title,
+  type,
+  onSubmit,
+  children,
+}) => {
+
+  const [isSubscribe, setIsSubscribe] = useState(false);
+
+  useEffect(() => {
+    setIsSubscribe(type === "subscribe");
+  }, [type]);
+
+  const submit = () => {
+    console.log('submit')
+
+    onSubmit(index)
+  }
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.title}>
+        <h1>{title}</h1>
       </div>
-    );
-}
+      <SubmitContext.Provider value={{ submit }}>
+        {children}
+      </SubmitContext.Provider>
+    </div>
+  );
+};
 
-export default Card
+Card.Content = function Content({ children }) {
+  return <div className={styles.info}>{children}</div>;
+};
+
+Card.ListItem = function ListItem({ children }) {
+  return <div className={styles.list}>{children}</div>;
+};
+
+Card.Item = function Item({ logo, text }) {
+  return (
+    <div className={styles.item}>
+      {logo}
+      <p>{text}</p>
+    </div>
+  );
+};
+
+Card.Logo = function Logo({ logo }) {
+  return <img src={logo} alt="Logo" />;
+};
+
+Card.Footer = function Footer({ children }) {
+  return <div className={styles.btns}>{children}</div>;
+};
+
+Card.Widget = function Widget({ title, value }) {
+  return (
+    <div className={styles.widget}>
+      <h3>{title}</h3>
+      <p>{value}</p>
+    </div>
+  );
+};
+
+Card.Submit = function Button({ title }) {
+  
+  const { submit } = useContext(SubmitContext)
+
+  return (
+    <div className={styles.btn}>
+      <button onClick={submit}>
+        {/*{isSubscribe
+          ? "Exibir Atividades"
+          : `Participar ${categoria !== ` ${categoria}` ? "" : ""}`}*/}
+        {title}
+      </button>
+    </div>
+  );
+};
+
+export default Card;

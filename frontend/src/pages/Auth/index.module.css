@@ -37,6 +37,10 @@
     justify-content: center;
 }
 
+.logo_right {
+    display: none;
+}
+
 .form_container {
     width: 400px;
 }
@@ -55,4 +59,51 @@
     color: rgb(87, 87, 87);
     font-size: 1em;
     font-weight: 600;
+}
+
+@media(max-width: 1000px) {
+    .login_container {
+        grid-template-columns: 1fr;
+    }
+
+    .login_container .left_container {
+        display: none;
+    }
+
+    .login_container .right_container {
+        flex-direction: column;
+        gap: 2em;
+        width: 100%;
+    }
+
+    .login_container .right_container .logo_right {
+        display: block;
+    }
+
+    .form_container .titleLogin {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+}
+
+@media(max-width: 470px) {
+    .form_container {
+        width: 370px;
+    }
+
+    .form_container .titleLogin h2 {
+        font-size: 1.5em;
+    }
+
+    .form_container .titleLogin h3 {
+        font-size: .9em;
+    }
+
+    .form_container form label {
+        font-size: .8em;
+    }
+
+    .form_container form button {
+        font-size: .8em;
+    }
 }
