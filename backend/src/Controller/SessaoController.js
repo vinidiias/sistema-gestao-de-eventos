@@ -34,13 +34,25 @@ module.exports = {
                 return res.status(400).json({ message: 'Senha inválida' });
             }
     
-            // Retornar os dados do usuário e o estado de firstLogin
+            // Buscar o idParticipante correspondente ao idUsuario
+            const participanteResult = await pool.query(
+                'SELECT idParticipante FROM Participante WHERE idUsuario = $1',
+                [user.idusuario]
+            );
+    
+            // Verificar se o participante existe
+            const idParticipante = participanteResult.rowCount > 0 
+                ? participanteResult.rows[0].idparticipante 
+                : null;
+    
+            // Retornar os dados do usuário, o papel e o idParticipante
             return res.status(200).json({
                 message: 'Login realizado com sucesso',
                 user: {
                     id: user.idusuario,
                     email: user.email,
-                    firstLogin: user.firstlogin // Verificar o valor do banco
+                    firstLogin: user.firstlogin, // Verificar o valor do banco
+                    idParticipante: idParticipante // Retornar o idParticipante (ou null se não existir)
                 },
                 role: role
             });
@@ -52,5 +64,6 @@ module.exports = {
                 error: err.message
             });
         }
-    }    
+    }
+    
 }
