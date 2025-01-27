@@ -69,6 +69,7 @@ routes.post('/sessao', SessaoController.login)
 
 //ParticipanteAcaoEvento
 routes.post('/participanteacaoevento/:idAcao/:idEvento/:idParticipante', ParticipanteAcaoEventoController.create)
+routes.get('/participanteacaoevento/:idparticipante', ParticipanteAcaoEventoController.listAcoesEventosPorParticipante)
 
 
 module.exports = routes

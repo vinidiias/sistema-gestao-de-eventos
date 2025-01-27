@@ -50,6 +50,62 @@ module.exports = {
             console.error(err.message);
             res.status(500).json({ message: 'Erro', error: err.message });
         }
-    }
+    },
+
+    async listAcoesEventosPorParticipante(req, res) {
+        const { idparticipante } = req.params;
+        
+        try {
+            // Verificar se o participante existe
+            const participanteResult = await pool.query(
+                'SELECT idparticipante FROM Participante WHERE idparticipante = $1',
+                [idparticipante]
+                
+            );
+            console.log(idparticipante)
     
+            if (participanteResult.rowCount === 0) {
+                return res.status(404).json({ message: 'Participante não encontrado' });
+            }
+    
+            const result = await pool.query(
+                `SELECT 
+                    pae.idParticipante,
+                    p.nomeParticipante,
+                    e.idEvento,
+                    e.nomeEvento,
+                    a.idAcao,
+                    a.nomeAcao,
+                    a.valor,
+                    a.numVagas,
+                    t.nomeTipoAcao,
+                    pae.statusInscricao,
+                    pae.dataInscricao
+                 FROM 
+                    ParticipanteAcaoEvento pae
+                 INNER JOIN 
+                    Participante p ON pae.idParticipante = p.idParticipante
+                 INNER JOIN 
+                    Evento e ON pae.idEvento = e.idEvento
+                 INNER JOIN 
+                    Acao a ON pae.idAcao = a.idAcao
+                 INNER JOIN 
+                    TipoAcao t ON a.idTipoAcao = t.idTipoAcao
+                 WHERE 
+                    pae.idParticipante = $1`,
+                [idparticipante]
+            );
+            
+    
+            if (result.rowCount === 0) {
+                return res.status(404).json({ message: 'Nenhuma ação ou evento encontrado para este participante' });
+            }
+    
+            // Retornar as ações e eventos associados ao participante
+            return res.status(200).json(result.rows);
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao buscar ações e eventos do participante', error: err.message });
+        }
+    }
 }

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
 );
 
 CREATE TABLE IF NOT EXISTS Responsavel (
-    idResponsavel SERIAL PRIMARY KEY,
+    idParticipante SERIAL PRIMARY KEY,
     nomeResponsavel VARCHAR(100),
     telefone VARCHAR(20),
     cpf VARCHAR(14)
@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS Acao (
     idAcao SERIAL PRIMARY KEY,
     nomeAcao VARCHAR(100),
     tipoAcao VARCHAR(50),
-    idResponsavel INT,
+    idParticipante INT,
     valor VARCHAR(50),
     numVagas INT,
     horario VARCHAR(10)
-    FOREIGN KEY (idResponsavel) REFERENCES Responsavel(idResponsavel)
+    FOREIGN KEY (idParticipante) REFERENCES Participante(idParticipante)
 );
 
 CREATE TABLE IF NOT EXISTS AcaoEvento (
