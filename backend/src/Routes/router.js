@@ -49,7 +49,7 @@ routes.delete('/responsavel/:idResponsavel', ResponsavelController.delete)
 
 //Acao
 routes.post('/acao', AcaoController.create)
-routes.get('/acaoparticipante', AcaoController.index)
+routes.get('/acaoparticipante/:idParticipante', AcaoController.index)
 routes.get('/acaoLista', AcaoController.listAcoesComEventos)
 routes.get('/acaolista', AcaoController.listAcoesPorTipo)
 routes.put('/acao/:idAcao', AcaoController.update)

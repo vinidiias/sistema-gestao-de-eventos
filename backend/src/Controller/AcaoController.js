@@ -118,37 +118,58 @@ module.exports = {
     },
 
     async index(req, res) {
+        const { idParticipante } = req.params;
+    
         try {
+            // Verificar se o participante existe
+            const participanteResult = await pool.query(
+                'SELECT idParticipante FROM Participante WHERE idParticipante = $1',
+                [idParticipante]
+            );
+    
+            if (participanteResult.rowCount === 0) {
+                return res.status(404).json({ message: 'Participante não encontrado' });
+            }
+    
+            // Buscar todas as ações e eventos associados ao participante
             const result = await pool.query(
                 `SELECT 
                     p.idParticipante,
                     p.nomeParticipante,
-                    p.telefone,
-                    p.cpf,
-                    u.email AS emailUsuario,
+                    a.idAcao,
+                    a.nomeAcao,
+                    a.valor,
+                    a.numVagas,
+                    a.horario,
                     e.idEvento,
                     e.nomeEvento,
-                    a.idAcao,
-                    a.nomeAcao
-                 FROM 
+                    e.dataInicio,
+                    e.dataFim,
+                    e.horario
+                    FROM 
                     Participante p
-                 INNER JOIN 
-                    Usuario u ON p.idUsuario = u.idUsuario
-                 LEFT JOIN 
+                    LEFT JOIN 
                     ParticipanteAcaoEvento pae ON p.idParticipante = pae.idParticipante
-                 LEFT JOIN 
+                    LEFT JOIN 
+                    Acao a ON pae.idAcao = a.idAcao
+                    LEFT JOIN 
                     Evento e ON pae.idEvento = e.idEvento
-                 LEFT JOIN 
-                    Acao a ON pae.idAcao = a.idAcao`
+                    WHERE 
+                    p.idParticipante = $1`,
+                [idParticipante]
             );
     
-            return res.status(200).json(result.rows); // Retorna todos os participantes com detalhes
+            if (result.rowCount === 0) {
+                return res.status(404).json({ message: 'Nenhuma ação ou evento encontrado para este participante' });
+            }
+    
+            // Retornar as ações e eventos associados ao participante
+            return res.status(200).json(result.rows);
         } catch (err) {
-            console.error(err); // Logar o erro para depuração
-            return res.status(500).json({ message: 'Erro ao listar participantes', error: err.message });
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao buscar ações e eventos do participante', error: err.message });
         }
-    }
-    , 
+    }, 
 
     async delete(req, res) {
         const { idAcao } = req.params; // Recebe o ID da ação pela URL

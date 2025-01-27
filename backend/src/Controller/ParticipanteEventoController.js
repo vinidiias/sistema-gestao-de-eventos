@@ -64,10 +64,25 @@ module.exports = {
     
             // Buscar os eventos em que o participante está inscrito
             const eventosResult = await pool.query(
-                `SELECT e.idEvento, e.nomeEvento, e.dataInicio, e.dataFim, e.horario 
-                 FROM ParticipanteEvento pe
-                 INNER JOIN Evento e ON pe.idEvento = e.idEvento
-                 WHERE pe.idParticipante = $1 AND pe.statusParticipanteEvento = $2`,
+                `SELECT 
+                    e.idEvento, 
+                    e.nomeEvento, 
+                    e.dataInicio, 
+                    e.dataFim, 
+                    e.horario,
+                    en.cep,
+                    en.rua,
+                    en.cidade,
+                    en.bairro,
+                    en.complemento
+                 FROM 
+                    ParticipanteEvento pe
+                 INNER JOIN 
+                    Evento e ON pe.idEvento = e.idEvento
+                 INNER JOIN 
+                    Endereco en ON e.idEndereco = en.idEndereco
+                 WHERE 
+                    pe.idParticipante = $1 AND pe.statusParticipanteEvento = $2`,
                 [idparticipante, "Confirmado"]
             );
     
