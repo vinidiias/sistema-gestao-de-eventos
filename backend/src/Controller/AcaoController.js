@@ -16,7 +16,7 @@ module.exports = {
     
             // Verificar se o responsável existe
             const responsavelResult = await pool.query(
-                `SELECT idResponsavel FROM Responsavel WHERE cpf = $1`,
+                `SELECT idParticipante FROM Participante WHERE cpf = $1`,
                 [cpfResponsavel]
             );
             if (responsavelResult.rowCount === 0) {
