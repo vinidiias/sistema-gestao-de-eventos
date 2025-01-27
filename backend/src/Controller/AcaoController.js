@@ -24,7 +24,7 @@ module.exports = {
             }
     
             // Obter os IDs necessários
-            const idResponsavel = responsavelResult.rows[0].idparticipante;
+            const idResponsavel = responsavelResult.rows[0].idresponsavel;
             const idTipoAcao = tipoAcaoResult.rows[0].idtipoacao;
             
             // Inserir a ação na tabela Acao
@@ -90,18 +90,35 @@ module.exports = {
     async index(req, res) {
         try {
             const result = await pool.query(
-                `SELECT a.idAcao, a.nomeAcao, a.valor, a.numVagas, t.nomeTipoAcao, r.nomeResponsavel
-                 FROM Acao a
-                 INNER JOIN TipoAcao t ON a.idTipoAcao = t.idTipoAcao
-                 INNER JOIN Responsavel r ON a.idResponsavel = r.idResponsavel`
+                `SELECT 
+                    p.idParticipante,
+                    p.nomeParticipante,
+                    p.telefone,
+                    p.cpf,
+                    u.email AS emailUsuario,
+                    e.idEvento,
+                    e.nomeEvento,
+                    a.idAcao,
+                    a.nomeAcao
+                 FROM 
+                    Participante p
+                 INNER JOIN 
+                    Usuario u ON p.idUsuario = u.idUsuario
+                 LEFT JOIN 
+                    ParticipanteAcaoEvento pae ON p.idParticipante = pae.idParticipante
+                 LEFT JOIN 
+                    Evento e ON pae.idEvento = e.idEvento
+                 LEFT JOIN 
+                    Acao a ON pae.idAcao = a.idAcao`
             );
     
-            return res.status(200).json(result.rows); // Retorna todas as ações com os detalhes associados
+            return res.status(200).json(result.rows); // Retorna todos os participantes com detalhes
         } catch (err) {
             console.error(err); // Logar o erro para depuração
-            return res.status(500).json({ message: 'Erro ao listar ações', error: err.message });
+            return res.status(500).json({ message: 'Erro ao listar participantes', error: err.message });
         }
-    }, 
+    }
+    , 
 
     async delete(req, res) {
         const { idAcao } = req.params; // Recebe o ID da ação pela URL
