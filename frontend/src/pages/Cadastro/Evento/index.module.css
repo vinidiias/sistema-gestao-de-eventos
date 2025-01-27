@@ -23,7 +23,7 @@
 
 @media(max-width: 700px) {
     .cadastro {
-        width: 500px;
+        width: 600px;
     }
 
     .cadastro button {
@@ -31,9 +31,9 @@
     }
 }
 
-@media(max-width: 500px) {
+@media(max-width: 616px) {
     .cadastro {
-        width: 300px;
+        width: 500px;
     }
 
     .cadastro button {
@@ -41,8 +41,22 @@
     }
 }
 
-@media(max-width: 300px) {
+@media(max-width: 516px) {
     .cadastro {
-        width: 250px;
+        width: 400px;
+    }
+}
+
+@media(max-width: 416px) {
+    .header {
+        display: none;
+    }
+
+    .cadastro h1 {
+        text-align: center;
+    }
+    
+    .cadastro {
+        width: 100%
     }
 }

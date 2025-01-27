@@ -4,9 +4,15 @@ import LogoNextEvent from "../../../components/Layout/LogoNextEvent";
 import AuthForm from "../../../components/Auth/AuthForm";
 import Submit from "../../../components/Form/Submit";
 import { FormProvider, useForm } from "react-hook-form";
+import api from "../../../services/Api";
+import { UserContext } from "../../../context";
+import { useContext } from "react";
+import RegisterModal from "../RegisterModal";
+
 const Login = () => {
   const navigate = useNavigate();
-  const methodsForm = useForm()
+  const methodsForm = useForm();
+  const { setUser } = useContext(UserContext);
 
   const fields = [
     {
@@ -17,18 +23,39 @@ const Login = () => {
     },
     {
       label: "Senha",
-      name: "password",
+      name: "senha",
       type: "password",
       placeholder: "Digite sua Senha",
     },
   ];
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     console.log(data)
+    /*try {
+      await api.post("/sessao", data)
+      .then((resp) => {
+        console.log(resp)
 
-   // navigate('/eventos')
-    alert('Logado com sucesso!')
-}
+        setUser((prevState) => ({
+          ...prevState,
+          email: resp.data.user.email,
+          id: resp.data.user.id,
+          isLogged: true,
+          role: resp.data.role,
+        }));
+
+        navigate("/eventos");
+
+        alert("Bem vindo!");
+      });
+    } catch (error) {
+      console.error(error);
+    }*/
+  };
+
+  const test = (text) => {
+    console.log(text)
+  }
 
   return (
     <div className={styles.login_container}>
@@ -46,18 +73,18 @@ const Login = () => {
           </div>
           <FormProvider {...methodsForm}>
             <form onSubmit={methodsForm.handleSubmit(handleSubmit)}>
-                <AuthForm fields={fields} />
-                <div className={styles.btns}>
-                    <Submit type="submit" text="Entrar" />
-                    <Submit
-                    onClick={() => navigate("/register")}
-                    type="button"
-                    text="Registrar"
-                    />
-                </div>
+              <AuthForm fields={fields} />
+              <div className={styles.btns}>
+                <Submit type="submit" text="Entrar" />
+                <Submit
+                  onClick={() => navigate("/register")}
+                  type="button"
+                  text="Registrar"
+                />
+              </div>
+              <RegisterModal open={true}/>
             </form>
           </FormProvider>
-          
         </div>
       </div>
     </div>

@@ -5,41 +5,59 @@ import { TiArrowLeftThick } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom'
 
 import api from "../../../services/Api";
+import { FormProvider, useForm } from "react-hook-form";
+import Submit from "../../../components/Form/Submit";
 
 const CadastroEvento = () => {
     const navigate = useNavigate()
-    const [formData, setFormData] = useState({
-        name: '',
-        local: '',
-        inicio: '',
-        fim: '',
-        value: '',
-    })
-
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value})
-    }
+    const formMethods = useForm()
 
     const fields = [
-        {name:'name', label: 'Título', value: formData.name, onChange: handleChange},
-        {name:'inicio', label: 'Data de Início', type: 'date', value: formData.inicio, onChange: handleChange},
-        {name:'fim', label: 'Data de Término', type: 'date', value: formData.fim, onChange: handleChange},
-        {name:'local', label: 'Local', value: formData.local, onChange: handleChange},
-        {name:'value', label: 'Valor da Inscrição', type: 'number', value: formData.value, onChange: handleChange}
+      {
+        fields: [
+          { label: 'Título do Evento', name: 'nomeEvento', type: 'text', placeholder: 'Digite o nome do Evento' },
+        ]
+      }, 
+      {
+        fields: [
+          { label: 'Data de Início', name: 'dataInicio', type: 'date' },
+          { label: 'Data de Término', name: 'dataFim', type: 'date' },
+          { label: 'Horário', name: 'horario', type: 'time'}
+        ]
+      },
+      {
+        fields: [
+          { label: 'CEP', name: 'cep', type: 'text', placeholder: 'Digite o CEP do Evento' },
+
+          { label: 'Bairro', name: 'bairro', type: 'text', placeholder: 'Digite o bairro do Evento' },
+        ]
+      },
+      {
+        fields: [
+          { label: 'Rua', name: 'rua', type: 'text', placeholder: 'Digite a rua do Evento' },
+          { label: 'Complemento', name: 'complemento', type: 'text' },
+        ]
+      },
+      {
+        fields: [
+          { label: 'Cidade', name: 'cidade', type: 'text'}
+        ]
+      },
     ]
 
-    async function createEvent() {
-      /*try {
-        const EventCreated = await api.post('/evento', formData)
+    async function handleCreateEvent(data) {
+      console.log(data)
 
-        if(EventCreated) {
-          alert('Evento criado!')
-          console.log(EventCreated)
-        }
+      try {
+
+        await api.post('/evento', data)
+        .then((resp) => {
+          console.log(resp.data)
+        })
+        .catch((error) => console.error(error))
       } catch(err) {
         console.error(err)
-      }*/
-     console.log(formData)
+      }
     }   
 
     return (
@@ -49,10 +67,16 @@ const CadastroEvento = () => {
         </div>
         <div className={styles.cadastro}>
           <h1>Cadastro de Evento</h1>
-          <FormCadastro 
-            onSubmit={createEvent}
-            fields={fields} btnLabel="Cadastrar Evento"
-          />
+          <FormProvider {...formMethods}>
+            <form onSubmit={formMethods.handleSubmit(handleCreateEvent)}>
+              <FormCadastro
+                fields={fields}
+              />
+              <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <Submit text='Cadastrar Evento' />
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </>
     );

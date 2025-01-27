@@ -19,8 +19,6 @@ const Card = ({
   }, [type]);
 
   const submit = () => {
-    console.log('submit')
-
     onSubmit(index)
   }
 

@@ -9,7 +9,7 @@ export function UserProvider(props) {
     })
 
     useEffect(() => {
-        sessionStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('user', JSON.stringify(user))
     }, [user])
 
     return (

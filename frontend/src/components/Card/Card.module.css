@@ -1,33 +1,4 @@
-@media (max-width: 700px) {
-    .card .info img {
-        width: 100px;
-    }
 
-    .card .info h2 {
-        font-size: 1em;
-    }
-
-    .card .info .item p {
-        font-size: .7em;
-    }
-
-    .card .btns .widget {
-        padding: .35em .65em;
-    }
-
-    .card .btns .widget h3 {
-        font-size: .6em;
-    }
-
-    .card .btns .widget p {
-        font-size: .65em;
-    }
-
-    .card .btns button {
-        font-size: .75em;
-        padding: .8em 2.3em;
-    }
-}
 
 @media(max-width: 378px) {
     .card .info {
@@ -102,6 +73,7 @@
 }
 
 .item p {
+    word-break: normal;
     font-size: .9em;
     font-weight: 400;
 }

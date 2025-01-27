@@ -1,52 +1,56 @@
-import { useNavigate } from "react-router-dom";
 import styles from "../Login/index.module.css";
 import LogoNextEvent from "../../../components/Layout/LogoNextEvent";
 import AuthForm from "../../../components/Auth/AuthForm";
 import Submit from "../../../components/Form/Submit";
-import { FormProvider, useForm } from 'react-hook-form'
+import api from "../../../services/Api";
+import { useNavigate } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
+import { useContext } from "react";
+import { UserContext } from "../../../context";
 
 const Register = () => {
   const navigate = useNavigate();
-  const methodsForm = useForm()
+  const methodsForm = useForm();
+  const { setUser } = useContext(UserContext)
 
   const fields = [
     {
-      label: "Nome",
-      name: "nomeParticipante",
-      type: "text",
-      placeholder: "Digite seu Nome",
+      label: "Email",
+      name: "email",
+      type: "email",
+      placeholder: "Digite seu Email",
     },
     {
-        label: "Email",
-        name: "email",
-        type: "email",
-        placeholder: "Digite seu Email",
-      },
-    {
-        label: "Telefone",
-        name: "telefone",
-        type: "text",
-        placeholder: "Digite seu Telefone",
-      },
-      {
-        label: "Nova Senha",
-        name: "senha",
-        type: "password",
-        placeholder: "Digite sua Senha",
-      },
-      {
-        label: "Confirme Senha",
-        name: "confirmacaoSenha",
-        type: "password",
-        placeholder: "Digite novamente sua Senha",
-      },
+      label: "Nova Senha",
+      name: "senha",
+      type: "password",
+      placeholder: "Digite sua Senha",
+    },
   ];
 
-    const handleSubmit = (data) => {
-        
-        navigate('/eventos')
-        alert('Registrado com sucesso!')
+  const handleSubmit = async (data) => {
+    console.log(data);
+    try {
+      await api
+        .post("/usuario", data)
+        .then((resp) => {
+          console.log(resp)
+          setUser({
+            email: resp.data.usuario.email,
+            id: resp.data.usuario.idUsuario,
+            isLogged: true,
+          })
+
+          navigate("/eventos");
+          alert("Registrado com sucesso!");
+        })
+
+          
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.error(error);
     }
+  };
 
   return (
     <div className={styles.login_container}>
@@ -64,18 +68,17 @@ const Register = () => {
           </div>
           <FormProvider {...methodsForm}>
             <form onSubmit={methodsForm.handleSubmit(handleSubmit)}>
-                <AuthForm fields={fields} />
-                <div className={styles.btns}>
-                    <Submit type="submit" text="Registrar" />
-                    <Submit
-                    onClick={() => navigate("/login")}
-                    type="button"
-                    text="Entrar"
-                    />
-                </div>
+              <AuthForm fields={fields} />
+              <div className={styles.btns}>
+                <Submit type="submit" text="Registrar" />
+                <Submit
+                  onClick={() => navigate("/login")}
+                  type="button"
+                  text="Entrar"
+                />
+              </div>
             </form>
           </FormProvider>
-        
         </div>
       </div>
     </div>

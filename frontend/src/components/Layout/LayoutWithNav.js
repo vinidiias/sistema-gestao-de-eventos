@@ -6,7 +6,7 @@ import Container from "./Container";
 const LayoutWithLayout = () => (
   <>
     <NavBar />
-    <Container customClass="height">
+    <Container customClass="auto">
       <Outlet />
     </Container>
     <Footer />
