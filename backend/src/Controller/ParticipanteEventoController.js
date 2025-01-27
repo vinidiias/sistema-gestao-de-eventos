@@ -36,7 +36,8 @@ module.exports = {
                 RETURNING *`, 
                 [idevento, idparticipante, status]
             );
-    
+
+
             // Retornar a confirmação
             res.status(201).json({
                 message: 'Confirmação do evento concluída',
@@ -49,45 +50,37 @@ module.exports = {
     },
 
     async index(req, res) {
-        const { idevento } = req.params;
-        const participantes = []; // Lista de participantes confirmados
+        const { idparticipante } = req.params;
     
         try {
-            // Verificar se o evento existe
-            const eventoResult = await pool.query(
-                `SELECT idEvento FROM Evento WHERE idEvento = $1`,
-                [idevento]
+            // Verificar se o participante existe
+            const participanteResult = await pool.query(
+                `SELECT idParticipante FROM Participante WHERE idParticipante = $1`,
+                [idparticipante]
             );
-            if (eventoResult.rowCount === 0) {
-                return res.status(400).json({ message: 'Evento não foi encontrado' });
+            if (participanteResult.rowCount === 0) {
+                return res.status(400).json({ message: 'Participante não encontrado' });
             }
     
-            // Buscar participantes confirmados no evento
-            const search = await pool.query(
-                `SELECT idParticipante FROM ParticipanteEvento 
-                 WHERE idEvento = $1 AND statusParticipanteEvento = $2`,
-                [idevento, "Confirmado"]
+            // Buscar os eventos em que o participante está inscrito
+            const eventosResult = await pool.query(
+                `SELECT e.idEvento, e.nomeEvento, e.dataInicio, e.dataFim, e.horario 
+                 FROM ParticipanteEvento pe
+                 INNER JOIN Evento e ON pe.idEvento = e.idEvento
+                 WHERE pe.idParticipante = $1 AND pe.statusParticipanteEvento = $2`,
+                [idparticipante, "Confirmado"]
             );
-            if (search.rowCount === 0) {
-                return res.status(404).json({ message: 'Nenhum participante confirmado para este evento' });
+    
+            // Verificar se o participante está inscrito em algum evento
+            if (eventosResult.rowCount === 0) {
+                return res.status(404).json({ message: 'Nenhum evento encontrado para este participante' });
             }
     
-            // Buscar detalhes dos participantes confirmados
-            for (let i = 0; i < search.rowCount; i++) {
-                const searchParticipante = await pool.query(
-                    `SELECT nomeParticipante, cpf 
-                     FROM Participante 
-                     WHERE idParticipante = $1`,
-                    [search.rows[i].idparticipante] // Corrigido: valores devem estar em um array
-                );
-                participantes.push(searchParticipante.rows[0]); // Adicionar o resultado na lista
-            }
-    
-            // Retornar a lista de participantes confirmados
-            return res.status(200).json(participantes);
+            // Retornar a lista de eventos
+            return res.status(200).json(eventosResult.rows);
         } catch (err) {
             console.error(err); // Logar o erro para depuração
-            return res.status(500).json({ message: 'Erro ao buscar participantes do evento', error: err.message });
+            return res.status(500).json({ message: 'Erro ao buscar eventos do participante', error: err.message });
         }
     },
 

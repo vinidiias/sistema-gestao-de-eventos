@@ -16,7 +16,7 @@ module.exports = {
     
             // Verificar se o responsável existe
             const responsavelResult = await pool.query(
-                `SELECT idResponsavel FROM Responsavel WHERE cpf = $1`,
+                `SELECT idParticipante FROM Participante WHERE cpf = $1`,
                 [cpfResponsavel]
             );
             if (responsavelResult.rowCount === 0) {
@@ -24,12 +24,12 @@ module.exports = {
             }
     
             // Obter os IDs necessários
-            const idResponsavel = responsavelResult.rows[0].idresponsavel;
+            const idResponsavel = responsavelResult.rows[0].idparticipante;
             const idTipoAcao = tipoAcaoResult.rows[0].idtipoacao;
             
             // Inserir a ação na tabela Acao
             const result = await pool.query(
-                `INSERT INTO Acao (nomeAcao, idResponsavel, valor, numVagas, idTipoAcao, horario)
+                `INSERT INTO Acao (nomeAcao, idParticipante, valor, numVagas, idTipoAcao, horario)
                  VALUES ($1, $2, $3, $4, $5, $6)
                  RETURNING *`,
                 [
