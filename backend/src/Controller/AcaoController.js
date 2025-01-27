@@ -50,6 +50,36 @@ module.exports = {
         }
     },
 
+    async listAcoesComEventos(req, res) {
+        try {
+            // Executar a consulta no banco de dados
+            const result = await pool.query(
+                `SELECT 
+                    a.idAcao,
+                    a.nomeAcao,
+                    a.valor,
+                    a.numVagas,
+                    a.horario,
+                    e.idEvento,
+                    e.nomeEvento,
+                    e.dataInicio,
+                    e.dataFim
+                 FROM 
+                    Acao a
+                 INNER JOIN 
+                    AcaoEvento ae ON a.idAcao = ae.idAcao
+                 INNER JOIN 
+                    Evento e ON ae.idEvento = e.idEvento`
+            );
+    
+            // Retornar as ações com os eventos
+            return res.status(200).json(result.rows);
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao listar ações com eventos', error: err.message });
+        }
+    },    
+
     async update (req, res) { //confiaaa
         const { idAcao} = req.params
         const { nomeAcao, nomeTipoAcao, cpfResponsavel, valor, numVagas} = req.body
