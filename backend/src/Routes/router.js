@@ -33,7 +33,7 @@ routes.delete('/participante/:id', ParticipanteController.delete)
 
 //ParticiapnteEvento
 routes.post('/participanteevento/:idevento/:idparticipante', ParticipanteEventoController.create)
-routes.get('/participanteevento/:idevento', ParticipanteEventoController.index)
+routes.get('/participanteevento/:idparticipante', ParticipanteEventoController.index)
 routes.put('/participanteevento/:idevento', ParticipanteEventoController.update)
 
 //TipoAcao

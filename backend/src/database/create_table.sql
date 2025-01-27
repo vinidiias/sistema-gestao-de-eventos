@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     idusuario SERIAL PRIMARY KEY,
     email VARCHAR(100),
     senha VARCHAR(100),
+    firstlogin BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS Responsavel (
