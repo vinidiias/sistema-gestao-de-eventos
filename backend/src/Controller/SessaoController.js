@@ -2,9 +2,9 @@ const pool = require("../conexao");
 const bcrypt = require('bcrypt')
 
 module.exports = {
-    async  login (req, res) {
-        const {email, senha} = req.body
-        
+    async login(req, res) {
+        const { email, senha } = req.body;
+    
         try {
             // Buscar o usuário no banco de dados pelo email
             const userResult = await pool.query(
@@ -14,29 +14,43 @@ module.exports = {
     
             // Verificar se o usuário existe
             if (userResult.rowCount === 0) {
-                return res.status(400).json({ message: 'Usuario nao encontrado' });
+                return res.status(400).json({ message: 'Usuário não encontrado' });
             }
     
             // Obter o registro do usuário
-            let role;
             const user = userResult.rows[0];
-            if(user.email === "admim@gmail.com.br") role = "admin"
-
-            else{
-                role = "outro"
+            let role;
+    
+            // Determinar o papel do usuário
+            if (user.email === "admim@gmail.com.br") {
+                role = "admin";
+            } else {
+                role = "outro";
             }
-
+    
+            // Verificar se a senha é válida
             const isPasswordValid = await bcrypt.compare(senha, user.senha);
             if (!isPasswordValid) {
-                return res.status(400).json({ message: 'Invalid password' });
+                return res.status(400).json({ message: 'Senha inválida' });
             }
- 
-            // Retornar sucesso e (opcionalmente) algum token ou informações do usuário
-            return res.status(200).json({ message: 'Login successful', user: { id: user.idusuario, email: user.email }, role });
+    
+            // Retornar os dados do usuário e o estado de firstLogin
+            return res.status(200).json({
+                message: 'Login realizado com sucesso',
+                user: {
+                    id: user.idusuario,
+                    email: user.email,
+                    firstLogin: user.firstlogin // Verificar o valor do banco
+                },
+                role: role
+            });
     
         } catch (err) {
             console.error(err); // Logar o erro para depuração
-            return res.status(400).json({ message: 'An error occurred during login', error: err.message });
+            return res.status(500).json({
+                message: 'Ocorreu um erro durante o login',
+                error: err.message
+            });
         }
-    }
+    }    
 }

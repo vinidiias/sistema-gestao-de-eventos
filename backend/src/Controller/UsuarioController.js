@@ -25,15 +25,18 @@ module.exports = {
 
             // Criptografar a senha
             const hashedPassword = await hashPassword(senha);
+            const login = true
     
             const result = await pool.query(
-                `INSERT INTO Usuario (email, senha) VALUES ($1, $2) RETURNING *`,
-                [email, hashedPassword]
+                `INSERT INTO Usuario (email, senha, firstLogin) VALUES ($1, $2, $3) RETURNING *`,
+                [email, hashedPassword, login]
             );
             res.status(201).json({
                 message: 'Usuário criado com sucesso',
                 usuario: result.rows[0]
             });
+
+
 
         } catch (err) {
             console.error(err);

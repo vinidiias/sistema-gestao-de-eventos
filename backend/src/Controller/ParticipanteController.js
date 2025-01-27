@@ -27,6 +27,15 @@ module.exports = {
                 RETURNING *`,
                 [nomeParticipante, telefone, cpf, emailResult.rows[0].idusuario]
             );
+
+            
+            // Atualizar o campo firstLogin na tabela Usuario
+            await pool.query(
+            `UPDATE Usuario 
+             SET firstLogin = false 
+             WHERE idusuario = $1`,
+            [emailResult.rows[0].idusuario]
+        );
     
             // Retornar o participante cadastrado
             res.status(201).json(result.rows[0]);
