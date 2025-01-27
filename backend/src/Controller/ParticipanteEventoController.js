@@ -36,7 +36,8 @@ module.exports = {
                 RETURNING *`, 
                 [idevento, idparticipante, status]
             );
-    
+
+
             // Retornar a confirmação
             res.status(201).json({
                 message: 'Confirmação do evento concluída',
